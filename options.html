@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Resize To Media Options</title>
+	
+	<script src="config.js"></script>
+	<script>
+	
+	function setValue(id){
+		var el = document.getElementById(id);
+		
+		if('checked' in el){
+			el.checked = conf.get(id);
+			return;
+		}
+	}
+	
+	document.addEventListener('DOMContentLoaded', function(){
+		//var comp_always = document.getElementById('compact_always');
+		//comp_always.onchange = function(e){ alert(13337); console.log(e); console.log(this); };
+		
+		var elems = document.querySelectorAll("#options input");
+		
+		for(var i = 0; i < elems.length; ++i){
+			setValue(elems[i].id);
+			if(elems[i].onchange) elems[i].onchange();
+		}
+	}, false);
+	
+	
+	function setDisabled(id, disabled){
+		var el = document.getElementById(id);
+		
+		if(el){
+			el.disabled = disabled;
+		}
+	}
+	
+	</script>
+
+	
+	<link rel="stylesheet" href="chrome://resources/css/button.css"/>
+	<link rel="stylesheet" href="chrome://resources/css/checkbox.css"/>
+	<link rel="stylesheet" href="chrome://resources/css/chrome_shared.css"/>
+<!--
+	<link rel="stylesheet" href="chrome://resources/css/list.css"/>
+	<link rel="stylesheet" href="chrome://resources/css/select.css"/>
+	<link rel="stylesheet" href="chrome://resources/css/spinner.css"/>
+	<link rel="stylesheet" href="chrome://resources/css/throbber.css"/>
+	<link rel="stylesheet" href="chrome://resources/css/tree.css"/>
+-->
+
+	<style>
+	html{ min-height: 100%; }
+	body{
+		font-family: Arial, sans-serif;
+		background: -webkit-radial-gradient(rgba(127, 127, 127, 0.5), rgba(127, 127, 127, 0.5) 35%, rgba(0, 0, 0, 0.7)), #eaeef3;
+		min-height: 100%;
+		
+	}
+	
+	.page{
+		width: 400px;
+		margin: 20px auto;
+		padding: 20px;
+		padding-top: 5px;
+		border: 1px solid #bbb;
+		border-radius: 10px;
+		background: #fff;
+		box-shadow: 0px 5px 80px #555;
+	}
+	
+	.bottom{
+		border-top: 1px solid #eee;
+		margin-top: 1em;
+	}
+	.bottom p{ font-size: smaller; }
+	
+	.bottom button{
+		min-width: 200px;
+		width: 100%;
+	}
+	
+	label{ display: inline-block; width: 90%; vertical-align: text-top; }
+	input:disabled + label { opacity: 0.4; }
+	
+	</style>
+</head>
+<body>
+<div class="page">
+
+
+<h1>Resize To Media Options</h1>
+
+<div id="options">
+
+	<p>
+	<input id="compact_always" onchange="conf.set(this.id, this.checked); setDisabled('popout_compact', this.checked); setDisabled('popout', this.checked);" type="checkbox"/>
+	<label for="compact_always">Always pop-out and use compact window</label>
+	</p>
+	
+	<p>
+	<input id="popout" onchange="conf.set(this.id, this.checked);" type="checkbox"/>
+	<label for="popout">Pop-out tab if the window has several tabs open</label>
+	</p>
+	
+	<p style="padding-left: 2em">
+	<input id="popout_compact" onchange="conf.set(this.id, this.checked);" type="checkbox"/>
+	<label for="popout_compact">Use compact pop-out window</label>
+	</p>
+
+	<p>
+	<input id="restore_on_resize" onchange="conf.set(this.id, this.checked);" type="checkbox"/>
+	<label for="restore_on_resize">Restore when manually resizing window</label>
+	</p>
+	
+	<p>
+	<input id="restore_on_unload" onchange="conf.set(this.id, this.checked);" type="checkbox"/>
+	<label for="restore_on_unload">Restore when leaving or closing page</label>
+	</p>
+	
+	<p>
+	<input id="navigate_reapply" onchange="conf.set(this.id, this.checked);" type="checkbox"/>
+	<label for="navigate_reapply">Reapply resize to media after navigating to another page while in compact resized stated</label>
+	</p>
+	
+</div>
+
+
+<div class="bottom">
+	<p><i>Changes are saved automatically.</i></p>
+	<button onclick="window.close()" >Close</button>
+</div>
+
+
+</div>
+</body>
+</html>
