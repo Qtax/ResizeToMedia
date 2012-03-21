@@ -1,6 +1,6 @@
 {
 	"name": "Resize To Media",
-	"version": "0.4",
+	"version": "0.5",
 	"description": "Resize browser window to the size of the largest media (flash, video, image, etc) element on the current page.",
 	
 	"browser_action": {

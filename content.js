@@ -546,8 +546,8 @@ function isVisible(elem, doc){
 */
 
 // From https://github.com/yonran/detect-zoom/
-// Andreas Zetterlund:
-// - Minor changes: words replaced by numbers, width not set
+// Minor changes: added CSS reset rules
+// Note that :before/:after rules can still break it
 
 function detectZoom(){
 	// the trick: an element's clientHeight is in CSS pixels, while you can
@@ -558,11 +558,11 @@ function detectZoom(){
 	var container = document.createElement('div');
 	var div = document.createElement('div');
 
-	// if width is set low, words of more than 1 char can be broken up
-	// to span several lines (with some CSS settings)
-	container.setAttribute("style", "height: 0; overflow: hidden; visibility: hidden; position: absolute; top: 0; left: 0;");
-	div.innerHTML = "1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>0";
-	div.setAttribute("style", "font: 100px/1em sans-serif; -webkit-text-size-adjust: none;");
+    // Add !important and relevant CSS rule resets
+    // so that other rules cannot affect the results.
+    container.setAttribute('style', addImportant('width:0; height:0; overflow:hidden; visibility:hidden; position: absolute;'));
+    div.innerHTML = "1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>0";
+    div.setAttribute('style', addImportant('font: 100px/1em sans-serif; -webkit-text-size-adjust: none; height: auto; width: 1em; padding: 0; overflow: visible;'));
 	
 	container.appendChild(div);
 	document.body.appendChild(container);
@@ -575,5 +575,14 @@ function detectZoom(){
 
 
 
+/**------------------------------------------------------------------
+/** addImportant()
+/**------------------------------------------------------------------
+/* Adds " !important" to the end of each CSS rule in a CSS text string.
+*/
+
+function addImportant(str){
+	return str.replace(/;/g, " !important;");
+}
 
 
